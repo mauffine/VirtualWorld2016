@@ -57,7 +57,14 @@ void FlyCamera::HandleKeyboardInput(double dt)
 	float fLength = glm::length(moveDir);
 	if (fLength > 0.01f)
 	{
-		moveDir = ((float)dt * m_fFlySpeed) * glm::normalize(moveDir);
+		if (glfwGetKey(m_pWindow, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+		{
+			moveDir = (((float)dt * m_fFlySpeed) * glm::normalize(moveDir)) * 2;
+		}
+		else
+		{
+			moveDir = ((float)dt * m_fFlySpeed) * glm::normalize(moveDir);
+		}
 		SetPosition(GetPosition() + moveDir);
 	}
 }

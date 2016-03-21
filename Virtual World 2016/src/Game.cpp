@@ -1,6 +1,8 @@
 #include "Game.h"
 bool Game::InitApp()
 {
+	glm::vec3 lightDir = glm::vec3(.5f, .5f, 0);
+	m_rockPos = glm::vec3(0, 24, 0);
 	FlyCamera* camera = new FlyCamera();
 	camera->SetInputWindow(m_window);
 
@@ -9,10 +11,12 @@ bool Game::InitApp()
 
 	m_camera = camera;
 
-	m_terrain = new TerrainGen(500, 
-		new DirectionalLight(glm::vec3(0,1,0), 1, glm::vec3(0,-1,0), 1, 1));
+	m_terrain = new TerrainGen(100, 
+		new DirectionalLight(glm::vec3(1,1,1), .5, 
+			lightDir, .5, 0));
 
-	m_rock = new FBXLoader("./res/Art Assets/Models/Rock1.fbx");
+	m_rock = new FBXLoader("./res/Art Assets/Models/Rock1.fbx",
+		"./res/Art Assets/Models/Rock-Texture-Surface.jpg", m_rockPos, lightDir);
 
 	return true;
 }
@@ -27,6 +31,8 @@ bool Game::Update(double dt)
 
 	m_rock->Update((float)dt);
 
+	//m_camera->LookAt(m_rockPos, glm::vec3(0, 1, 0));
+
 	return true;
 }
 void Game::Draw()
@@ -36,18 +42,3 @@ void Game::Draw()
 	m_terrain->Draw(*m_camera);
 	m_rock->Draw(m_camera);
 }
-//void Game::RunMSAA(unsigned int a_SampleNum)
-//{
-//	unsigned int tex, m;
-//	glGenTextures(1, &tex);
-//	glBindTexture(GL_TEXTURE_2D_MULTISAMPLE, tex);
-//	glTexImage2DMultisample(GL_TEXTURE_2D_MULTISAMPLE, 
-//		a_SampleNum, GL_RGBA8, GetScreenWidth(), GetScreenHeight(), false);
-//
-//	glGenFramebuffers(1, &m_fbo);
-//	glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
-//	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D_MULTISAMPLE,
-//		tex, 0);
-//
-//	GLenum status = glCheckFramebufferStatus();
-//}

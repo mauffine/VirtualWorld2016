@@ -17,12 +17,14 @@ void TerrainGen::GeneratePlane()
 	m_vertexData = new Vertex[m_size * m_size];
 	m_indicies = new unsigned int[(m_size - 1) * (m_size - 1) * 6];
 
+	float *perline_Data = GeneratePerlinNoise(m_size, nullptr);
+
 	for (unsigned int row = 0; row < m_size; ++row)
 	{
 		for (unsigned int column = 0; column < m_size; ++column)
 		{	
 			//vertex position
-			glm::vec4 position((float)column - ((float)m_size / 2.f), 0,
+			glm::vec4 position((float)column - ((float)m_size / 2.f), perline_Data[column * m_size + row] * 5,
 				(float)row - ((float)m_size / 2.f), 1);
 
 			//vertex texture coord
@@ -35,9 +37,16 @@ void TerrainGen::GeneratePlane()
 			m_vertexData[row * m_size + column].position = position;
 			m_vertexData[row * m_size + column].texCoord = texCoord;
 			m_vertexData[row * m_size + column].normal = normal;
-			m_vertexData[row * m_size + column].heightMapCoord = heightMapCoord;
 		}
 	}
+	for (int i = 0; i < 10; ++i)
+	{
+		Vertex* currentVert = &m_vertexData[(rand() % m_size) * (rand() % m_size)];
+		m_boulders[i] = new FBXLoader("./res/Art Assets/Models/Rock1.fbx",
+			"./res/Art Assets/Models/Rock-Texture-Surface.jpg", glm::vec3(currentVert->position.x, currentVert->position.y,
+				currentVert->position.z), m_pDirLight->GetDirection());
+	}
+
 	//builds the plane a quad at a time
 	unsigned int index = 0;
 
@@ -57,6 +66,17 @@ void TerrainGen::GeneratePlane()
 			m_indicies[index++] = currentVert + 1;
 		}
 	}
+	unsigned int indiciesSize = (m_size - 1) *
+		(m_size - 1) * 6;
+	for (unsigned int i = 0; i < indiciesSize; i += 3)
+	{
+		Vertex* vertex1 = &m_vertexData[m_indicies[i + 2]];
+		Vertex* vertex2 = &m_vertexData[m_indicies[i + 1]];
+		Vertex* vertex3 = &m_vertexData[m_indicies[i]];
+
+		GenerateNormal(vertex1, vertex2, vertex3);
+	}
+
 	GenerateBuffers();
 	m_shaders.AddShader("./res/Shaders/EnvfShader.txt", ShaderType::FRAGMENT);
 	m_shaders.AddShader("./res/Shaders/EnvvShader.txt", ShaderType::VERTEX);
@@ -78,14 +98,26 @@ void TerrainGen::GeneratePlane()
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	stbi_image_free(m_diffuseTex);
-	GeneratePerlinNoise(100, nullptr);
 }
 void TerrainGen::GenerateEnvironment()
 {
 }
-void TerrainGen::GeneratePerlinNoise(int a_dims, float* a_data)
+void TerrainGen::GenerateNormal(Vertex* a_vert1, Vertex* a_vert2, Vertex* a_vert3)
 {
-	int dims = 64;
+	glm::vec3 d1(a_vert3->position - a_vert1->position);
+	glm::vec3 d2(a_vert2->position - a_vert1->position);
+
+	glm::vec3 crossProduct = glm::cross(d2, d1);
+
+	glm::vec3 normal = glm::normalize(crossProduct);
+
+	a_vert1->normal = normal;
+	a_vert2->normal = normal;
+	a_vert3->normal = normal;
+}
+float* TerrainGen::GeneratePerlinNoise(int a_dims, float* a_data)
+{
+	int dims = a_dims;
 	float *perlin_data = new float[a_dims* a_dims];
 	float scale = (1.f / a_dims) * 3;
 	int octaves = 6;
@@ -108,17 +140,7 @@ void TerrainGen::GeneratePerlinNoise(int a_dims, float* a_data)
 			}
 		}
 	}
-	glGenTextures(1, &m_perlinTexture);
-	glBindTexture(GL_TEXTURE_2D, m_perlinTexture);
-
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_R32F, a_dims, a_dims, 0, GL_RED, GL_FLOAT, perlin_data);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
-
+	return perlin_data;
 }
 
 void TerrainGen::GenerateBuffers()
@@ -163,10 +185,18 @@ void TerrainGen::GenerateBuffers()
 }
 bool TerrainGen::Update(double dt)
 {
+	for (int i = 0; i < 10; ++i)
+	{
+		m_boulders[i]->Update(dt);
+	}
 	return true;
 }
-void TerrainGen::Draw(const BaseCamera& a_camera)
+void TerrainGen::Draw(BaseCamera& a_camera)
 {
+	for (int i = 0; i < 10; ++i)
+	{
+		m_boulders[i]->Draw(&a_camera);
+	}
 	m_shaders.Bind();
 
 	// Pass through projection view matrix to shader
@@ -210,6 +240,7 @@ void TerrainGen::Draw(const BaseCamera& a_camera)
 
 	// Pass through camera position to shader for specular highlighting
 	glUniform3fv(m_shaders.GetUniform("cameraPos"), 1, &a_camera.GetPosition()[0]);
+
 
 	// Draw terrain
 	glBindVertexArray(m_vao);

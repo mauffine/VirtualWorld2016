@@ -47,9 +47,10 @@ private:
 
 	TerrainGen* m_terrain;
 	FBXLoader* m_rock;
-	unsigned int m_MSAAtex;
 
-	void RunMSAA(unsigned int a_SampleNum);
+	glm::vec3 m_rockPos;
+
+
 protected:
 public:
 	Game() : MerffEngine("Virtual World", 1280, 720) {};
