@@ -13,7 +13,7 @@ FBXLoader::FBXLoader(char* a_fileLoc, char* a_textureLoc, glm::vec3 a_position,
 	}
 	m_worldTransform[3].w = 1;
 
-	m_lightDir = a_lightDir;
+	m_lightDir = -a_lightDir;
 
 	CreateOpenGLBuffers(m_fbx);
 

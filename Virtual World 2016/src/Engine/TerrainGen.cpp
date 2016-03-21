@@ -78,8 +78,8 @@ void TerrainGen::GeneratePlane()
 	}
 
 	GenerateBuffers();
-	m_shaders.AddShader("./res/Shaders/EnvfShader.txt", ShaderType::FRAGMENT);
-	m_shaders.AddShader("./res/Shaders/EnvvShader.txt", ShaderType::VERTEX);
+	m_shaders.AddShader("./res/Shaders/Env.frag", ShaderType::FRAGMENT);
+	m_shaders.AddShader("./res/Shaders/Env.Vert", ShaderType::VERTEX);
 
 	m_shaders.LinkProgram();
 
@@ -107,7 +107,7 @@ void TerrainGen::GenerateNormal(Vertex* a_vert1, Vertex* a_vert2, Vertex* a_vert
 	glm::vec3 d1(a_vert3->position - a_vert1->position);
 	glm::vec3 d2(a_vert2->position - a_vert1->position);
 
-	glm::vec3 crossProduct = glm::cross(d2, d1);
+	glm::vec3 crossProduct = glm::cross(d1, d2);
 
 	glm::vec3 normal = glm::normalize(crossProduct);
 
@@ -223,7 +223,6 @@ void TerrainGen::Draw(BaseCamera& a_camera)
 
 	glUniform1i(m_shaders.GetUniform("material.diffuseTex"), 0);
 
-	glUniform1i(m_shaders.GetUniform("perlin_texture"), 1);
 	// Pass through Directional Light properties
 	glm::vec3 lightDir = -m_pDirLight->GetDirection();
 	glUniform3fv(m_shaders.GetUniform("dirLight.direction"), 1, &lightDir[0]);
@@ -240,7 +239,6 @@ void TerrainGen::Draw(BaseCamera& a_camera)
 
 	// Pass through camera position to shader for specular highlighting
 	glUniform3fv(m_shaders.GetUniform("cameraPos"), 1, &a_camera.GetPosition()[0]);
-
 
 	// Draw terrain
 	glBindVertexArray(m_vao);
