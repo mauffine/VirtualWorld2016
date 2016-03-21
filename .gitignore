@@ -8,6 +8,9 @@
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
+# Resources and dependancies which are too big to upload
+res/
+dep/
 
 # Build results
 [Dd]ebug/
