@@ -44,4 +44,5 @@ private:
 	Shader m_shaders;
 
 	DirectionalLight* m_pDirLight;
+
 };

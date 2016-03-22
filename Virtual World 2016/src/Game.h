@@ -50,7 +50,10 @@ private:
 
 	glm::vec3 m_rockPos;
 
+	TwBar* m_bar;
 
+	glm::vec3 m_lightDir;
+	DirectionalLight* m_globalLight;
 protected:
 public:
 	Game() : MerffEngine("Virtual World", 1280, 720) {};

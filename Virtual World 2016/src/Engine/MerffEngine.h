@@ -6,7 +6,8 @@
 #include <vector>
 #include <fstream>
 
-#include"GLFW\glfw3.h"
+#include "AntTweakBar.h"
+#include "GLFW\glfw3.h"
 #include "Utilities\Gizmos.h"
 #include "glm\ext.hpp"
 #include "glm\glm.hpp"
@@ -46,4 +47,20 @@ protected:
 	unsigned int GetScreenHeight() const { return m_screenHeight; }
 private:
 	unsigned int m_screenWidth, m_screenHeight;
+
+	void OnMouseButton(GLFWwindow*, int b, int a, int m) {
+		TwEventMouseButtonGLFW(b, a);
+	}
+	void OnMousePosition(GLFWwindow*, double x, double y) {
+		TwEventMousePosGLFW((int)x, (int)y);
+	}
+	void OnMouseScroll(GLFWwindow*, double x, double y) {
+		TwEventMouseWheelGLFW((int)y);
+	}
+	void OnKey(GLFWwindow*, int k, int s, int a, int m) {
+		TwEventKeyGLFW(k, a);
+	}
+	void OnChar(GLFWwindow*, unsigned int c) {
+		TwEventCharGLFW(c, GLFW_PRESS);
+	}
 };

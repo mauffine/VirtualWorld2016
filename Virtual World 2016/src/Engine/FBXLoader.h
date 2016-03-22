@@ -31,6 +31,4 @@ private:
 	glm::vec3 m_position;
 	glm::mat4 m_worldTransform;
 	glm::vec3 m_lightDir;
-
-	//std::vector<
 };
