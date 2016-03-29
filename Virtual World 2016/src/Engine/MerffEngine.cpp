@@ -47,11 +47,11 @@ bool MerffEngine::InitGL()
 	glBlendEquation(GL_FUNC_ADD);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-	glfwSetMouseButtonCallback(m_window, OnMouseButton);
-	glfwSetCursorPosCallback(m_window, OnMousePosition);
-	glfwSetScrollCallback(m_window, OnMouseScroll);
-	glfwSetKeyCallback(m_window, OnKey);
-	glfwSetCharCallback(m_window, OnChar);
+	//glfwSetMouseButtonCallback(m_window, OnMouseButton);
+	//glfwSetCursorPosCallback(m_window, OnMousePosition);
+	//glfwSetScrollCallback(m_window, OnMouseScroll);
+	//glfwSetKeyCallback(m_window, OnKey);
+	//glfwSetCharCallback(m_window, OnChar);
 	return true;
 }
 void MerffEngine::Run()

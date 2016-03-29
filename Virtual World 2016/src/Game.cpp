@@ -14,11 +14,12 @@ bool Game::InitApp()
 		m_lightDir, .7, 0);
 	m_terrain = new TerrainGen(100, m_globalLight);
 
-	TwInit(TW_OPENGL_CORE, nullptr);
-	TwWindowSize(1280, 720);
-	m_bar = TwNewBar("my bar");
+	//TwInit(TW_OPENGL_CORE, nullptr);
+	//TwWindowSize(1280, 720);
 
-	TwAddVarRW(m_bar, "LightDirection", TW_TYPE_DIR3F, &m_lightDir[0], "");
+	//m_bar = TwNewBar("my bar");
+
+	//TwAddVarRW(m_bar, "LightDirection", TW_TYPE_DIR3F, &m_lightDir[0], "");
 
 	return true;
 }
@@ -41,5 +42,5 @@ void Game::Draw()
 
 	m_terrain->Draw(*m_camera);
 	
-	TwDraw();
+	//TwDraw();
 }
