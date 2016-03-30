@@ -11,7 +11,7 @@ public:
 	~TerrainGen();
 
 	bool Update(double dt);
-	void Draw(BaseCamera& a_camera);
+	void Draw(const BaseCamera& a_camera);
 
 	void GenerateEnvironment();
 private:

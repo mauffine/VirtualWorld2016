@@ -7,14 +7,15 @@
 
 #include "BaseCamera.h"
 #include "Engine/Shader.h"
+#include "Engine/DirectionalLight.h"
 class FBXLoader
 {
 public:
 	FBXLoader(char* a_fileLoc, char* a_textureLoc, glm::vec3 a_position,
-		glm::vec3 a_lightDir);
+		DirectionalLight* a_dirLight);
 	~FBXLoader();
 	void Update(float dt);
-	void Draw(BaseCamera* a_camera);
+	void Draw(const BaseCamera& a_camera);
 private:
 
 	void CreateOpenGLBuffers(FBXFile* fbx);
@@ -30,5 +31,5 @@ private:
 
 	glm::vec3 m_position;
 	glm::mat4 m_worldTransform;
-	glm::vec3 m_lightDir;
+	DirectionalLight* m_pDirLight;
 };

@@ -44,7 +44,7 @@ void TerrainGen::GeneratePlane()
 		Vertex* currentVert = &m_vertexData[(rand() % m_size) * (rand() % m_size)];
 		m_boulders[i] = new FBXLoader("./res/Art Assets/Models/Rock1.fbx",
 			"./res/Art Assets/Models/Rock-Texture-Surface.jpg", glm::vec3(currentVert->position.x, currentVert->position.y,
-				currentVert->position.z), m_pDirLight->GetDirection());
+				currentVert->position.z), m_pDirLight);
 	}
 
 	//builds the plane a quad at a time
@@ -78,7 +78,7 @@ void TerrainGen::GeneratePlane()
 	}
 
 	GenerateBuffers();
-	m_shaders.AddShader("./res/Shaders/Env.frag", ShaderType::FRAGMENT);
+	m_shaders.AddShader("./res/Shaders/Phong.frag", ShaderType::FRAGMENT);
 	m_shaders.AddShader("./res/Shaders/Env.Vert", ShaderType::VERTEX);
 
 	m_shaders.LinkProgram();
@@ -191,11 +191,11 @@ bool TerrainGen::Update(double dt)
 	}
 	return true;
 }
-void TerrainGen::Draw(BaseCamera& a_camera)
+void TerrainGen::Draw(const BaseCamera& a_camera)
 {
 	for (int i = 0; i < 10; ++i)
 	{
-		m_boulders[i]->Draw(&a_camera);
+		m_boulders[i]->Draw(a_camera);
 	}
 	m_shaders.Bind();
 

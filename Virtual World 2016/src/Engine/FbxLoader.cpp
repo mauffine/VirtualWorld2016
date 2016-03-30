@@ -1,8 +1,9 @@
 #include "Engine\FBXLoader.h"
 
 FBXLoader::FBXLoader(char* a_fileLoc, char* a_textureLoc, glm::vec3 a_position,
-	glm::vec3 a_lightDir)
+	DirectionalLight* a_dirLight)
 {
+	m_pDirLight = a_dirLight;
 	m_fbx = new FBXFile();
 	m_fbx->load(a_fileLoc);
 	m_position = a_position;
@@ -13,11 +14,9 @@ FBXLoader::FBXLoader(char* a_fileLoc, char* a_textureLoc, glm::vec3 a_position,
 	}
 	m_worldTransform[3].w = 1;
 
-	m_lightDir = -a_lightDir;
-
 	CreateOpenGLBuffers(m_fbx);
 
-	m_shader.AddShader("./res/Shaders/FBX.frag", ShaderType::FRAGMENT);
+	m_shader.AddShader("./res/Shaders/Phong.frag", ShaderType::FRAGMENT);
 	m_shader.AddShader("./res/Shaders/FBX.vert", ShaderType::VERTEX);
 	
 	unsigned char* m_diffuseTex = stbi_load(a_textureLoc, &m_diffuseWidth,
@@ -105,18 +104,55 @@ void FBXLoader::Update(float dt)
 {
 
 }
-void FBXLoader::Draw(BaseCamera* a_camera)
+void FBXLoader::Draw(const BaseCamera& a_camera)
 {
 	m_shader.Bind();
 
 	glUniformMatrix4fv(m_shader.GetUniform("ProjectionView"), 
-		1, GL_FALSE, &(a_camera->GetProjectionView()[0][0]));
+		1, GL_FALSE, &(a_camera.GetProjectionView()[0][0]));
 
 	glUniformMatrix4fv(m_shader.GetUniform("WorldTransform"), 
 		1, GL_FALSE, &(m_worldTransform[0][0]));
 
-	glUniform4f(m_shader.GetUniform("LightDir"), m_lightDir.x, 
-		m_lightDir.y, m_lightDir.z, 1);
+	m_shader.Bind();
+
+	// Pass through projection view matrix to shader
+	glUniformMatrix4fv(m_shader.GetUniform("projectionView"),
+		1, GL_FALSE, &a_camera.GetProjectionView()[0][0]);
+
+	// Update normal matrix
+	glm::mat3 normalMatrix = glm::inverseTranspose(
+		glm::mat3(a_camera.GetView()));
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_diffuseID);
+
+	glUniformMatrix3fv(m_shader.GetUniform("normalMat"), 1, GL_FALSE, &normalMatrix[0][0]);
+
+	// Set material
+	glUniform4fv(m_shader.GetUniform("material.ambient"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform4fv(m_shader.GetUniform("material.diffuse"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform4fv(m_shader.GetUniform("material.specular"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform1i(m_shader.GetUniform("material.diffuseTex"), 0);
+
+	// Pass through Directional Light properties
+	glm::vec3 lightDir = -m_pDirLight->GetDirection();
+	glUniform3fv(m_shader.GetUniform("dirLight.direction"), 1, &lightDir[0]);
+
+	glUniform3fv(m_shader.GetUniform("dirLight.ambient"), 1, &m_pDirLight->GetColour()[0]);
+
+	glUniform3fv(m_shader.GetUniform("dirLight.diffuse"), 1, &m_pDirLight->GetColour()[0]);
+
+	glUniform1f(m_shader.GetUniform("dirLight.ambientIntensity"), m_pDirLight->GetAmbientIntensity());
+
+	glUniform1f(m_shader.GetUniform("dirLight.diffuseIntensity"), m_pDirLight->GetDiffuseIntensity());
+
+	glUniform1f(m_shader.GetUniform("dirLight.specularIntensity"), m_pDirLight->GetSpecularIntensity());
+
+	// Pass through camera position to shader for specular highlighting
+	glUniform3fv(m_shader.GetUniform("cameraPos"), 1, &a_camera.GetPosition()[0]);
 
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, m_diffuseID);
