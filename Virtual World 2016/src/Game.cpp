@@ -12,7 +12,7 @@ bool Game::InitApp()
 	m_camera = camera;
 	m_globalLight = new DirectionalLight(glm::vec3(1, 1, 1), .2,
 		m_lightDir, .7, 0);
-	m_terrain = new TerrainGen(100, m_globalLight);
+	m_terrain = new TerrainGen(100, m_globalLight, 10);
 
 	//TwInit(TW_OPENGL_CORE, nullptr);
 	//TwWindowSize(1280, 720);

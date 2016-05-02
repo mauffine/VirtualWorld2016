@@ -1,7 +1,9 @@
 #include "Engine\TerrainGen.h"
 
-TerrainGen::TerrainGen(const unsigned int& a_size, DirectionalLight* a_pDirLight)
+TerrainGen::TerrainGen(const unsigned int& a_size, DirectionalLight* a_pDirLight, int a_numOfBoulders)
 {
+	m_numOfBoulders = a_numOfBoulders;
+	m_boulderPositions = new glm::vec3[m_numOfBoulders];
 	m_size = a_size;
 	m_pDirLight = a_pDirLight;
 	GeneratePlane();
