@@ -171,3 +171,72 @@ void FBXLoader::Draw(const BaseCamera& a_camera)
 			GL_UNSIGNED_INT, 0);
 	}
 }
+void FBXLoader::DrawFromList(const BaseCamera& a_camera, glm::vec3 a_position)
+{
+	m_shader.Bind();
+
+	glUniformMatrix4fv(m_shader.GetUniform("ProjectionView"),
+		1, GL_FALSE, &(a_camera.GetProjectionView()[0][0]));
+
+	glm::mat4 transform = m_worldTransform;
+	
+	glUniformMatrix4fv(m_shader.GetUniform("WorldTransform"),
+		1, GL_FALSE, &(m_worldTransform[0][0]));
+
+	m_shader.Bind();
+
+	// Pass through projection view matrix to shader
+	glUniformMatrix4fv(m_shader.GetUniform("projectionView"),
+		1, GL_FALSE, &a_camera.GetProjectionView()[0][0]);
+
+	// Update normal matrix
+	glm::mat3 normalMatrix = glm::inverseTranspose(
+		glm::mat3(a_camera.GetView()));
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_diffuseID);
+
+	glUniformMatrix3fv(m_shader.GetUniform("normalMat"), 1, GL_FALSE, &normalMatrix[0][0]);
+
+	// Set material
+	glUniform4fv(m_shader.GetUniform("material.ambient"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform4fv(m_shader.GetUniform("material.diffuse"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform4fv(m_shader.GetUniform("material.specular"), 1, &glm::vec4(1.f, 1.f, 1.f, 1.f)[0]);
+
+	glUniform1i(m_shader.GetUniform("material.diffuseTex"), 0);
+
+	// Pass through Directional Light properties
+	glm::vec3 lightDir = -m_pDirLight->GetDirection();
+	glUniform3fv(m_shader.GetUniform("dirLight.direction"), 1, &lightDir[0]);
+
+	glUniform3fv(m_shader.GetUniform("dirLight.ambient"), 1, &m_pDirLight->GetColour()[0]);
+
+	glUniform3fv(m_shader.GetUniform("dirLight.diffuse"), 1, &m_pDirLight->GetColour()[0]);
+
+	glUniform1f(m_shader.GetUniform("dirLight.ambientIntensity"), m_pDirLight->GetAmbientIntensity());
+
+	glUniform1f(m_shader.GetUniform("dirLight.diffuseIntensity"), m_pDirLight->GetDiffuseIntensity());
+
+	glUniform1f(m_shader.GetUniform("dirLight.specularIntensity"), m_pDirLight->GetSpecularIntensity());
+
+	// Pass through camera position to shader for specular highlighting
+	glUniform3fv(m_shader.GetUniform("cameraPos"), 1, &a_camera.GetPosition()[0]);
+
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, m_diffuseID);
+
+	glUniform1i(m_shader.GetUniform("material.diffuseTex"), 0);
+
+	//bind VAO and draw mesh
+	for (unsigned int i = 0; i < m_fbx->getMeshCount(); ++i)
+	{
+		FBXMeshNode* mesh = m_fbx->getMeshByIndex(i);
+
+		unsigned int* glData = (unsigned int*)mesh->m_userData;
+
+		glBindVertexArray(glData[0]);
+		glDrawElements(GL_TRIANGLES, (unsigned int)mesh->m_indices.size(),
+			GL_UNSIGNED_INT, 0);
+	}
+}

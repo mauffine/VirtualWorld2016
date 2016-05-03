@@ -16,6 +16,7 @@ public:
 	~FBXLoader();
 	void Update(float dt);
 	void Draw(const BaseCamera& a_camera);
+	void DrawFromList(const BaseCamera& a_camera, glm::vec3 a_position);
 private:
 
 	void CreateOpenGLBuffers(FBXFile* fbx);
