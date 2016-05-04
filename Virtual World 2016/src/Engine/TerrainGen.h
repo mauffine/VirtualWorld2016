@@ -25,7 +25,7 @@ private:
 	struct ModelPoint
 	{
 		glm::vec4 position;
-		glm::vec3
+		glm::vec4 rotation;
 	};
 	Vertex* m_vertexData;
 	unsigned int* m_indicies;
@@ -37,7 +37,7 @@ private:
 	FBXLoader* m_alphaBoulder;
 
 	int m_numOfBoulders;
-	glm::vec3* m_boulderPositions;
+	ModelPoint m_boulderPositions;
 
 	FBXLoader* m_boulders[10];
 
