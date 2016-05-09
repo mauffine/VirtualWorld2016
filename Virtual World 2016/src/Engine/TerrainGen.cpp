@@ -3,7 +3,7 @@
 TerrainGen::TerrainGen(const unsigned int& a_size, DirectionalLight* a_pDirLight, int a_numOfBoulders)
 {
 	m_numOfBoulders = a_numOfBoulders;
-	m_boulderPositions = new glm::vec3[m_numOfBoulders];
+	m_boulderPositions = new ModelPoint[m_numOfBoulders];
 	m_size = a_size;
 	m_pDirLight = a_pDirLight;
 	GeneratePlane();
@@ -41,14 +41,14 @@ void TerrainGen::GeneratePlane()
 			m_vertexData[row * m_size + column].normal = normal;
 		}
 	}
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < m_numOfBoulders; ++i)
 	{
 		Vertex* currentVert = &m_vertexData[(rand() % m_size) * (rand() % m_size)];
-		m_boulders[i] = new FBXLoader("./res/Art Assets/Models/Rock1.fbx",
-			"./res/Art Assets/Models/Rock-Texture-Surface.jpg", glm::vec3(currentVert->position.x, currentVert->position.y,
-				currentVert->position.z), m_pDirLight);
+		m_boulderPositions[i].position = currentVert->position;
+		
 	}
-
+	m_alphaBoulder = new FBXLoader("./res/Art Assets/Models/Rock1.fbx",
+		"./res/Art Assets/Models/Rock-Texture-Surface.jpg", glm::vec3(0) , m_pDirLight);
 	//builds the plane a quad at a time
 	unsigned int index = 0;
 
@@ -103,6 +103,7 @@ void TerrainGen::GeneratePlane()
 }
 void TerrainGen::GenerateEnvironment()
 {
+	float *perline_Data = GeneratePerlinNoise(m_size, nullptr);
 }
 void TerrainGen::GenerateNormal(Vertex* a_vert1, Vertex* a_vert2, Vertex* a_vert3)
 {
@@ -187,17 +188,13 @@ void TerrainGen::GenerateBuffers()
 }
 bool TerrainGen::Update(double dt)
 {
-	for (int i = 0; i < 10; ++i)
-	{
-		m_boulders[i]->Update(dt);
-	}
 	return true;
 }
 void TerrainGen::Draw(const BaseCamera& a_camera)
 {
-	for (int i = 0; i < 10; ++i)
+	for (int i = 0; i < m_numOfBoulders; ++i)
 	{
-		m_boulders[i]->Draw(a_camera);
+		m_alphaBoulder->DrawFromList(a_camera, m_boulderPositions[i].position.xyz);
 	}
 	m_shaders.Bind();
 

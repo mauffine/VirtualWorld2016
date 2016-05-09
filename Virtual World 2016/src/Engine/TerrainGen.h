@@ -37,9 +37,7 @@ private:
 	FBXLoader* m_alphaBoulder;
 
 	int m_numOfBoulders;
-	ModelPoint m_boulderPositions;
-
-	FBXLoader* m_boulders[10];
+	ModelPoint* m_boulderPositions;
 
 	float m_seed;
 

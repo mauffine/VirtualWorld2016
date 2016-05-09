@@ -179,9 +179,12 @@ void FBXLoader::DrawFromList(const BaseCamera& a_camera, glm::vec3 a_position)
 		1, GL_FALSE, &(a_camera.GetProjectionView()[0][0]));
 
 	glm::mat4 transform = m_worldTransform;
-	
+	transform[0][3] = a_position.x;
+	transform[1][3] = a_position.y;
+	transform[2][3] = a_position.z;
+
 	glUniformMatrix4fv(m_shader.GetUniform("WorldTransform"),
-		1, GL_FALSE, &(m_worldTransform[0][0]));
+		1, GL_FALSE, &(transform[0][0]));
 
 	m_shader.Bind();
 
