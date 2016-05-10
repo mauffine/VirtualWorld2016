@@ -12,9 +12,14 @@
 #include "glm\ext.hpp"
 #include "glm\glm.hpp"
 #include "stb_image.h"
+#include <PxPhysicsAPI.h>
+#include <PxScene.h>
+#include <pvd\PxVisualDebugger.h>
 
 #include "Engine\BaseCamera.h"
 #include "Engine\Shader.h"
+
+using namespace physx;
 class MerffEngine
 {
 public:
@@ -24,6 +29,8 @@ public:
 
 	bool InitGL();
 	void Run();
+
+	void SetupPhysx();
 
 	virtual bool InitApp() = 0;
 	virtual void DeInitApp() = 0;

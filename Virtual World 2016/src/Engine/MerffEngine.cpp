@@ -108,3 +108,6 @@ void MerffEngine::DisplayGrid(int a_size)
 			i == halfSize ? white : black);
 	}
 }
+void MerffEngine::SetupPhysx()
+{
+}

@@ -36,6 +36,7 @@ struct Planet
 class Game : public MerffEngine
 {
 private:
+
 	float testAngle = 0;
 	Shader *m_shader;
 	unsigned int m_diffuse, m_normal;
