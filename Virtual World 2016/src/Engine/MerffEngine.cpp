@@ -110,4 +110,17 @@ void MerffEngine::DisplayGrid(int a_size)
 }
 void MerffEngine::SetupPhysx()
 {
+	PxAllocatorCallback *myCallback = new MyAllocator();
+	m_physicsFoundation = PxCreateFoundation(PX_PHYSICS_VERSION, *myCallback,
+		m_defaultErrorCallback);
+	m_physics = PxCreatePhysics(PX_PHYSICS_VERSION, *m_physicsFoundation,
+		PxTolerancesScale());
+	PxInitExtensions(*m_physics);
+	//create the Physics Material
+	m_physicsMaterial = m_physics->createMaterial(0.5f, 0.5f, 0.5f);
+	PxSceneDesc sceneDesc(m_physics->getTolerancesScale);
+	sceneDesc.gravity = PxVec3(0, -10.0f, 0);
+	sceneDesc.filterShader = &physx::PxDefaultSimulationFilterShader;
+	sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
+	m_physicsScene = m_physics->createScene(sceneDesc);
 }
