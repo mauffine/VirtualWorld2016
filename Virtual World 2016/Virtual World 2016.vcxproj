@@ -48,6 +48,10 @@
     <ClInclude Include="src\Engine\TerrainGen.h" />
     <ClInclude Include="src\Game.h" />
     <ClInclude Include="src\gl_core_4_4.h" />
+    <ClInclude Include="src\Physics Objects\Physics Scene.h" />
+    <ClInclude Include="src\Physics Objects\PhysicsObjectBase.h" />
+    <ClInclude Include="src\Physics Objects\RigidBody.h" />
+    <ClInclude Include="src\Physics Objects\Sphere.h" />
     <ClInclude Include="src\Utilities\Gizmos.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
