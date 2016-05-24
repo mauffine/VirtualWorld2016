@@ -13,6 +13,9 @@ public:
 
 	void Update(float a_dt);
 
+	void SetupPhysx();
+	void SetupVisualDebugger();
+	void SetUpTutorial1();
 	//Physics
 	PxFoundation* m_physicsFoundation;
 	PxPhysics* m_physics;
@@ -24,8 +27,5 @@ public:
 	PxMaterial* m_boxMaterial;
 	PxCooking* m_physicsCooker;
 private:
-	void SetupPhysx();
-	void SetupVisualDebugger();
-	void SetUpTutorial1();
 };
 

@@ -19,7 +19,7 @@ void Physics::SetupPhysx()
 	PxInitExtensions(*m_physics);
 	//create the Physics Material
 	m_physicsMaterial = m_physics->createMaterial(0.5f, 0.5f, 0.5f);
-	PxSceneDesc sceneDesc(m_physics->getTolerancesScale);
+	PxSceneDesc sceneDesc(m_physics->getTolerancesScale());
 	sceneDesc.gravity = PxVec3(0, -10.0f, 0);
 	sceneDesc.filterShader = &physx::PxDefaultSimulationFilterShader;
 	sceneDesc.cpuDispatcher = PxDefaultCpuDispatcherCreate(1);
@@ -43,7 +43,7 @@ void Physics::SetupVisualDebugger()
 	if (m_physics->getPvdConnectionManager() == NULL)
 		return;
 
-	const char* pvd_host_ip = "127.0.0.1";
+	const char* pvd_host_ip = "10.17.23.186";
 	int port = 5425;
 	unsigned int timeout = 100;
 

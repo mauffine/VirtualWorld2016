@@ -13,14 +13,10 @@ bool Game::InitApp()
 	m_globalLight = new DirectionalLight(glm::vec3(1, 1, 1), .2,
 		m_lightDir, .7, 0);
 	m_terrain = new TerrainGen(100, m_globalLight, 10);
-
-	//TwInit(TW_OPENGL_CORE, nullptr);
-	//TwWindowSize(1280, 720);
-
-	//m_bar = TwNewBar("my bar");
-
-	//TwAddVarRW(m_bar, "LightDirection", TW_TYPE_DIR3F, &m_lightDir[0], "");
-
+	m_phyisicsPtr = new Physics();
+	m_phyisicsPtr->SetupPhysx();
+	m_phyisicsPtr->SetupVisualDebugger();
+	m_phyisicsPtr->SetUpTutorial1();
 	return true;
 }
 void Game::DeInitApp()
@@ -28,6 +24,7 @@ void Game::DeInitApp()
 }
 bool Game::Update(double dt)
 {
+	m_phyisicsPtr->Update(dt);
 	m_camera->Update(dt);
 
 	m_terrain->Update(dt);

@@ -10,6 +10,7 @@
 #include "Engine\GPUParticleEmitter.h"
 #include "Engine\TerrainGen.h"
 #include "Engine\FBXLoader.h"
+#include "Engine\Physics.h"
 struct Vertex
 {
 	float x, y, z, w;
@@ -36,7 +37,7 @@ struct Planet
 class Game : public MerffEngine
 {
 private:
-
+	Physics* m_phyisicsPtr;
 	float testAngle = 0;
 	Shader *m_shader;
 	unsigned int m_diffuse, m_normal;

@@ -31,8 +31,6 @@ public:
 	bool InitGL();
 	void Run();
 
-	void SetupPhysx();
-
 	virtual bool InitApp() = 0;
 	virtual void DeInitApp() = 0;
 
@@ -55,17 +53,6 @@ protected:
 	
 	unsigned int GetScreenWidth() const { return m_screenWidth; }
 	unsigned int GetScreenHeight() const { return m_screenHeight; }
-
-	//Physics
-	PxFoundation* m_physicsFoundation;
-	PxPhysics* m_physics;
-	PxScene* m_physicsScene;
-	PxDefaultErrorCallback m_defaultErrorCallback;
-	PxDefaultAllocator m_defaultAllocatorCallback;
-	PxSimulationFilterShader m_defailtFilterShader = PxDefaultSimulationFilterShader;
-	PxMaterial* m_physicsMaterial;
-	PxMaterial* m_boxMaterial;
-	PxCooking* m_physicsCooker;
 private:
 	unsigned int m_screenWidth, m_screenHeight;
 
