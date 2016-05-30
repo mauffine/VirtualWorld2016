@@ -5,8 +5,8 @@ class RigidBody : public PhysicsObjectBase
 public:
 	RigidBody(glm::vec3 a_position, glm::vec3 a_velocity, glm::quat a_rotation,
 		float a_mass);
-	glm::vec2 m_position;
-	glm::vec2 m_velocity;
+	glm::vec3 m_position;
+	glm::vec3 m_velocity;
 
 	float m_mass;
 	float m_rotation2D;

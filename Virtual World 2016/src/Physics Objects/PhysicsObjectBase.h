@@ -1,6 +1,7 @@
 #pragma once
 #include "glm\ext.hpp"
 #include "glm\glm.hpp"
+#include "Utilities\Gizmos.h"
 enum ShapeType
 {
 	Plane,
@@ -10,13 +11,11 @@ enum ShapeType
 class PhysicsObjectBase
 {
 public:
-	PhysicsObjectBase();
-	~PhysicsObjectBase();
 	ShapeType m_shapeID;
 	void virtual Update(glm::vec3 a_gravity, float a_timeStep) = 0;
 	void virtual debug() = 0;
 	void virtual MakeGizmo() = 0;
 	void virtual ResetPosition() {};
-private:
-
+protected:
+	glm::vec3 m_position;
 };
