@@ -34,6 +34,7 @@
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Physics Objects\CustomPhysics.cpp" />
     <ClCompile Include="src\Physics Objects\PhysicsScene.cpp" />
+    <ClCompile Include="src\Physics Objects\RigidBody.cpp" />
     <ClCompile Include="src\Physics Objects\Sphere.cpp" />
     <ClCompile Include="src\Utilities\Gizmos.cpp" />
   </ItemGroup>
