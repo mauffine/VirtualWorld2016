@@ -29,7 +29,6 @@ bool Game::Update(double dt)
 
 	m_terrain->Update(dt);
 	m_globalLight->SetDirection(m_lightDir);
-	//m_camera->LookAt(m_rockPos, glm::vec3(0, 1, 0));
 
 	return true;
 }
@@ -38,6 +37,4 @@ void Game::Draw()
 	DisplayGrid(100);
 
 	m_terrain->Draw(*m_camera);
-	
-	//TwDraw();
 }

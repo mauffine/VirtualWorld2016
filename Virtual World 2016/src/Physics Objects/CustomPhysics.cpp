@@ -17,7 +17,7 @@ void CustomPhysics::SetupPhysics()
 		glm::vec3(0, 0, 0),
 		3.0f, 1,
 		glm::vec4(1, 0, 0, 1));
-	m_physicsScene->AddActor
+	m_physicsScene->AddActor(newball);
 }
 void CustomPhysics::OnUpdate(double a_dt)
 {

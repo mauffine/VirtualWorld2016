@@ -8,14 +8,12 @@
 class PhysicsScene
 {
 public:
-	PhysicsScene();
-	~PhysicsScene();
-
 	glm::vec3 m_gravity;
 	float m_timestep;
-	std::vector<PhysicsScene*> m_actors;
-	void AddActor(PhysicsObjectBase*);
-	void RemoveActor(PhysicsObjectBase);
+	std::vector<PhysicsObjectBase*> m_actors;
+
+	void AddActor(PhysicsObjectBase* a_actor);
+	void RemoveActor(PhysicsObjectBase* a_actor);
 	void Update();
 	void DebugScene();
 	void AddGizmos();
