@@ -12,6 +12,7 @@ void CustomPhysics::SetupPhysics()
 	m_physicsScene = new PhysicsScene();
 	m_physicsScene->m_gravity = glm::vec3(0, -10, 0);
 	m_physicsScene->m_timestep = .001f;
+	m_physicsScene->m_nextUpdate = m_physicsScene->m_timestep;
 	SphereObject* newball;
 	newball = new SphereObject(glm::vec3(-40, 0, 0),
 		glm::vec3(0, 0, 0),
@@ -21,6 +22,6 @@ void CustomPhysics::SetupPhysics()
 }
 void CustomPhysics::OnUpdate(double a_dt)
 {
-	m_physicsScene->Update();
+	m_physicsScene->Update(a_dt);
 	m_physicsScene->UpdateGizmos();
 }
