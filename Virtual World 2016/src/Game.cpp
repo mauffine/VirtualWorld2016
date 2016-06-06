@@ -17,8 +17,6 @@ bool Game::InitApp()
 	//m_phyisicsPtr->SetupPhysx();
 	//m_phyisicsPtr->SetupVisualDebugger();
 	//m_phyisicsPtr->SetUpTutorial1();
-	m_customPhysics = new CustomPhysics();
-	m_customPhysics->SetupPhysics();
 	return true;
 }
 void Game::DeInitApp()
@@ -31,12 +29,11 @@ bool Game::Update(double dt)
 
 	m_terrain->Update(dt);
 	m_globalLight->SetDirection(m_lightDir);
-	m_customPhysics->OnUpdate(dt);
 	return true;
 }
 void Game::Draw()
 {
 	DisplayGrid(100);
 
-	//m_terrain->Draw(*m_camera);
+	m_terrain->Draw(*m_camera);
 }

@@ -12,7 +12,6 @@
 #include "Engine\FBXLoader.h"
 #include "Engine\Physics.h"
 
-#include "Physics Objects\CustomPhysics.h"
 struct Vertex
 {
 	float x, y, z, w;
@@ -59,7 +58,6 @@ private:
 	glm::vec3 m_lightDir;
 	DirectionalLight* m_globalLight;
 
-	CustomPhysics* m_customPhysics;
 protected:
 public:
 	Game() : MerffEngine("Virtual World", 1280, 720) {};
