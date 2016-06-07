@@ -13,10 +13,10 @@ bool Game::InitApp()
 	m_globalLight = new DirectionalLight(glm::vec3(1, 1, 1), .2,
 		m_lightDir, .7, 0);
 	m_terrain = new TerrainGen(100, m_globalLight, 10);
-	//m_phyisicsPtr = new Physics();
-	//m_phyisicsPtr->SetupPhysx();
-	//m_phyisicsPtr->SetupVisualDebugger();
-	//m_phyisicsPtr->SetUpTutorial1();
+	m_phyisicsPtr = new Physics();
+	m_phyisicsPtr->SetupPhysx();
+	m_phyisicsPtr->SetupVisualDebugger();
+	m_phyisicsPtr->SetUpTutorial1();
 	return true;
 }
 void Game::DeInitApp()
@@ -24,7 +24,7 @@ void Game::DeInitApp()
 }
 bool Game::Update(double dt)
 {
-	//m_phyisicsPtr->Update(dt);
+	m_phyisicsPtr->Update(dt);
 	m_camera->Update(dt);
 
 	m_terrain->Update(dt);

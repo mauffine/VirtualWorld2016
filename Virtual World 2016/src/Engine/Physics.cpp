@@ -31,11 +31,9 @@ void Physics::Update(float a_dt)
 	if (a_dt <= 0)
 		return;
 	m_physicsScene->simulate(a_dt);
+	while (m_physicsScene->fetchResults() == false)
 	{
-		while (m_physicsScene->fetchResults() == false)
-		{
 
-		}
 	}
 }
 void Physics::SetupVisualDebugger()
@@ -43,24 +41,30 @@ void Physics::SetupVisualDebugger()
 	if (m_physics->getPvdConnectionManager() == NULL)
 		return;
 
-	const char* pvd_host_ip = "10.17.23.186";
+	const char* pvd_host_ip = "Localhost";
 	int port = 5425;
 	unsigned int timeout = 100;
 
-	PxVisualDebuggerConnectionFlags connectionFlags = PxVisualDebuggerExt::getAllConnectionFlags();
+	PxVisualDebuggerConnectionFlags connectionFlags = 
+		PxVisualDebuggerExt::getAllConnectionFlags();
 	auto theConnection = PxVisualDebuggerExt::createConnection(
-		m_physics->getPvdConnectionManager(), pvd_host_ip, port, timeout, connectionFlags);
+		m_physics->getPvdConnectionManager(), pvd_host_ip, port, 
+		timeout, connectionFlags);
 }
 void Physics::SetUpTutorial1()
 {
-	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi*1.0f, PxVec3(0.0f, 0.0f, 1.0f)));
-	PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(), *m_physicsMaterial);
+	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi*1.0f, 
+		PxVec3(0.0f, 0.0f, 1.0f)));
+	PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(), 
+		*m_physicsMaterial);
 	m_physicsScene->addActor(*plane);
 
 	float density = 10;
 	PxBoxGeometry box(2, 2, 2);
 	PxTransform transform(PxVec3(0, 5, 0));
 
-	PxRigidDynamic* dynamicActor = PxCreateDynamic(*m_physics, transform, box, *m_physicsMaterial, density);
+	PxRigidDynamic* dynamicActor = PxCreateDynamic(*m_physics, transform, box, 
+		*m_physicsMaterial, density);
 	m_physicsScene->addActor(*dynamicActor);
+	
 }
