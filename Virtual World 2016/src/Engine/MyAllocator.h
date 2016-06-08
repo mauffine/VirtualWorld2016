@@ -6,7 +6,8 @@ class MyAllocator : public PxAllocatorCallback
 {
 public:
 	virtual ~MyAllocator() {}
-	virtual void* allocate(size_t a_size, const char* a_typeName, const char* filename, int line)
+	virtual void* allocate(size_t a_size, const char* a_typeName, 
+		const char* a_filename, int a_line)
 	{
 		void* pointer = _aligned_malloc(a_size, 16);
 		return pointer;
