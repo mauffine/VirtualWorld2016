@@ -112,19 +112,27 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LibraryPath>$(ProjectDir)dep\libs\physx;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)dep\physx;$(ProjectDir)dep\libs\physx;$(IncludePath)</IncludePath>
-    <ExecutablePath>$(ProjectDir)dep\libs\physx;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LibraryPath>$(ProjectDir)dep\libs\physx;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
     <IncludePath>$(ProjectDir)dep\physx;$(IncludePath)</IncludePath>
-    <ExecutablePath>$(ProjectDir)dep\libs\physx;$(ExecutablePath)</ExecutablePath>
+    <ExecutablePath>$(ExecutablePath)</ExecutablePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LibraryPath>$(ProjectDir)dep\libs\physx;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\physx;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LibraryPath>$(ProjectDir)dep\libs\physx;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\lib-vc2015;$(LibraryPath)</LibraryPath>
+    <IncludePath>$(ProjectDir)dep\physx;$(IncludePath)</IncludePath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>#(ProjectdDir)dep\physx;$(ProjectDir)dep\AntTweakBar\include;$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dep\AntTweakBar\include;$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLM_FORCE_PURE;GLM_SWIZZLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -137,7 +145,13 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\physx;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_PURE;GLM_SWIZZLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
+    <Link>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;FBXLoader_d.lib;PhysX3CharacterKinematicDEBUG_x86.lib;PhysX3CommonDEBUG_x86.lib;PhysX3CookingDEBUG_x86.lib;PhysX3DEBUG_x86.lib;PhysX3ExtensionsDEBUG.lib;PhysX3VehicleDEBUG.lib;PhysXProfileSDKDEBUG.lib;PhysXVisualDebuggerSDKDEBUG.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dep\vs2015;$(ProjectDir)dep\glfw-3.1.bin.WIN32\lib-vc2013;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
@@ -146,7 +160,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>#(ProjectdDir)dep\physx;$(ProjectDir)dep\AntTweakBar\include;$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)dep\AntTweakBar\include;$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <PreprocessorDefinitions>GLM_FORCE_PURE;GLM_SWIZZLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
@@ -163,10 +177,14 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
+      <AdditionalIncludeDirectories>$(ProjectDir)dep\vs2015;$(ProjectDir)dep\GLCore;$(ProjectDir)src;$(ProjectDir)dep\glm;$(ProjectDir)dep\stb-master;$(ProjectDir)dep\glfw-3.1.2.bin.WIN32\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GLM_FORCE_PURE;GLM_SWIZZLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
     </ClCompile>
     <Link>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;FBXLoader.lib;PhysX3_x86.lib;PhysX3CharacterKinematic_x86.lib;PhysX3Common_x86.lib;PhysX3Cooking_x86.lib;PhysX3Extensions.lib;PhysXProfileSDK.lib;PhysXVisualDebuggerSDK.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(ProjectDir)dep\glfw-3.1.bin.WIN32\lib-vc2013;$(ProjectDir)dep\vs2015;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

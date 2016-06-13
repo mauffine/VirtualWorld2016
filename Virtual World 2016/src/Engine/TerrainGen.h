@@ -3,6 +3,14 @@
 #include "Engine\MerffEngine.h"
 #include "Engine\Shader.h"
 #include "Engine\DirectionalLight.h"
+
+struct Vertex
+{
+	glm::vec4 position;
+	glm::vec3 normal;
+	glm::vec2 texCoord;
+	glm::vec2 heightMapCoord;
+};
 #include "Engine\FBXLoader.h"
 class TerrainGen
 {
@@ -14,14 +22,20 @@ public:
 	void Draw(const BaseCamera& a_camera);
 
 	void GenerateEnvironment();
-private:
-	struct Vertex
+	int GetPhysicalSize()
 	{
-		glm::vec4 position;
-		glm::vec3 normal;
-		glm::vec2 texCoord;
-		glm::vec2 heightMapCoord;
-	};
+		return m_size;
+	}
+	int* GetHeightData()
+	{
+		int* tmp = new int();
+		for (int i = 0; i < m_size * m_size; i++)
+		{
+			tmp[i] = m_vertexData[i].position.y;
+		}
+		return tmp;
+	}
+private:
 	struct ModelPoint
 	{
 		glm::vec4 position;

@@ -6,7 +6,7 @@
 #include <vector>
 #include <fstream>
 
-#include "AntTweakBar.h"
+//#include "AntTweakBar.h"
 #include "GLFW\glfw3.h"
 #include "Utilities\Gizmos.h"
 #include "glm\ext.hpp"
@@ -56,7 +56,7 @@ protected:
 private:
 	unsigned int m_screenWidth, m_screenHeight;
 
-	void OnMouseButton(GLFWwindow*, int b, int a, int m) {
+	/*void OnMouseButton(GLFWwindow*, int b, int a, int m) {
 		TwEventMouseButtonGLFW(b, a);
 	}
 	void OnMousePosition(GLFWwindow*, double x, double y) {
@@ -70,5 +70,5 @@ private:
 	}
 	void OnChar(GLFWwindow*, unsigned int c) {
 		TwEventCharGLFW(c, GLFW_PRESS);
-	}
+	}*/
 };

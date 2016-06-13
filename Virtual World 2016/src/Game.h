@@ -12,13 +12,13 @@
 #include "Engine\FBXLoader.h"
 #include "Engine\Physics.h"
 
-struct Vertex
-{
-	float x, y, z, w;
-	float nx, ny, nz, nw;
-	float tx, ty, tz, tw;
-	float s, t;
-};
+//struct Vertex
+//{
+//	float x, y, z, w;
+//	float nx, ny, nz, nw;
+//	float tx, ty, tz, tw;
+//	float s, t;
+//};
 struct Planet
 {
 	glm::vec3 m_position;
@@ -53,11 +53,12 @@ private:
 
 	glm::vec3 m_rockPos;
 
-	TwBar* m_bar;
+	//TwBar* m_bar;
 
 	glm::vec3 m_lightDir;
 	DirectionalLight* m_globalLight;
 
+	bool shooting = false;
 protected:
 public:
 	Game() : MerffEngine("Virtual World", 1280, 720) {};

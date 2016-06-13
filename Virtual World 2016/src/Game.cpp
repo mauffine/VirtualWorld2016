@@ -15,8 +15,11 @@ bool Game::InitApp()
 	m_terrain = new TerrainGen(100, m_globalLight, 10);
 	m_phyisicsPtr = new Physics();
 	m_phyisicsPtr->SetupPhysx();
+	//m_phyisicsPtr->CreatePhysicsScene();
 	m_phyisicsPtr->SetupVisualDebugger();
 	m_phyisicsPtr->SetUpTutorial1();
+	//m_phyisicsPtr->CreateMeshCollider(m_terrain->GetPhysicalSize(), m_terrain->GetHeightData(), m_terrain->GetPhysicalSize());
+
 	return true;
 }
 void Game::DeInitApp()
@@ -24,6 +27,14 @@ void Game::DeInitApp()
 }
 bool Game::Update(double dt)
 {
+	if (glfwGetKey(this->m_window, GLFW_KEY_R) == GLFW_PRESS && shooting == false)
+	{
+		m_phyisicsPtr->ShootProjectile(m_camera);
+		shooting = true;
+	}
+	else if (!(glfwGetKey(this->m_window, GLFW_KEY_R) == GLFW_PRESS))
+		shooting = false;
+
 	m_phyisicsPtr->Update(dt);
 	m_camera->Update(dt);
 
