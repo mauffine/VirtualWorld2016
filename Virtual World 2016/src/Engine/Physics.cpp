@@ -69,58 +69,36 @@ void Physics::ShootProjectile(BaseCamera* a_camera)
 }
 void Physics::CreateMeshCollider(int a_size, int* a_data, int a_rowsColumns)
 {
-	PxBoxGeometry box = PxBoxGeometry(1, 1, 1);
-	PxTransform transform(PxVec3(0, 0, 0));
-	//PxRigidStatic* actor = PxCreateStatic(*m_physics, transform, box, *m_physicsMaterial);
-	//actor->userData = this;
-	//actor->
-	/*PxVec3 *verts = new PxVec3[a_numVerts];
-	int vertIDX = 0;
-
-	for (int vertcount = 0; vertcount < a_numVerts; ++vertcount)
-	{
-		glm::vec3 tmp = glm::vec3(a_vertexArray[vertcount].position.x, a_vertexArray[vertcount].position.y, a_vertexArray[vertcount].position.z);
-		verts[vertIDX++] = PxVec3(tmp.x, tmp.y, tmp.z);
-	}
-	PxTriangleMeshDesc meshDesc;
-	meshDesc.points.count = a_numVerts;
-	meshDesc.points.stride = sizeof(PxVec3);
-	meshDesc.points.data = verts;
-	int triCount = a_numIndicies / 3;
-	meshDesc.triangles.count = triCount;
-	meshDesc.triangles.stride = 3 * sizeof(PxU32);
-	meshDesc.triangles.data = a_indicies;
-
-	PxDefaultMemoryOutputStream* buf = new PxDefaultMemoryOutputStream();
-	assert(m_physicsCooker->cookTriangleMesh(meshDesc, *buf));
-	PxU8* contents = buf->getData();	
-	PxU32 size = buf->getSize();
-	PxDefaultMemoryInputData input(contents, size);
-	PxTriangleMesh* triangleMesh = m_physics->createTriangleMesh(input);
-	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f));
-	PxShape* convexShape = actor->createShape(PxTriangleMeshGeometry(triangleMesh), *m_physicsMaterial, pose);*/
-
 	PxHeightFieldDesc hfDesc;
 	hfDesc.format = PxHeightFieldFormat::eS16_TM;
 	hfDesc.nbColumns = a_rowsColumns;
 	hfDesc.nbRows = a_rowsColumns;
 	hfDesc.samples.data = a_data;
 	hfDesc.samples.stride = sizeof(PxHeightFieldSample);
-	hfDesc.thickness = -100.0f;
-	PxHeightField* aHeightField = m_physics->createHeightField(hfDesc);
-	PxHeightFieldGeometry hfGeom(aHeightField, PxMeshGeometryFlags(), 1,
-		a_size, a_size);
-	PxRigidStatic* actor = PxCreateStatic(*m_physics, transform, hfGeom, *m_physicsMaterial);
-	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f));
-	PxShape* heightmap = actor->createShape((PxHeightFieldGeometry)hfGeom,
-		*m_physicsMaterial, pose);
+	hfDesc.thickness = 10000;
 
-	//PxDefaultMemoryOutputStream* buf = new PxDefaultMemoryOutputStream();
-	assert(heightmap);
-		/*m_physicsCooker->cookHeightField(hfDesc, *buf));
-	PxU8* contents = buf->getData();
-	PxU32 size = buf->getSize();
-	PxDefaultMemoryInputData input(contents, size);*/
+	PxHeightField* heightField = m_physics->createHeightField(hfDesc);
+	PxHeightFieldGeometry hfGeom(heightField, PxMeshGeometryFlags(), 10, a_size, a_size);
+	PxTransform pose = PxTransform(PxVec3(-5000, -650, -5000));
+	PxRigidStatic* actor = PxCreateStatic(*m_physics, pose, hfGeom, *m_physicsMaterial);
+	PxShape* heightMap = actor->createShape((PxHeightFieldGeometry)hfGeom, 
+		*m_physicsMaterial, pose);
+	assert(heightMap);
+	m_physicsScene->addActor(*actor);
+}
+void Physics::CreateLiquid()
+{
+	PxParticleSystem* pf;
+
+	PxU32 maxParticles = 4000;
+	bool perParticleRestOffset = false;
+	pf = m_physics->createParticleSystem(maxParticles, perParticleRestOffset);
+
+	pf->setDamping(0.1);
+	pf->setParticleMass(.1);
+	pf->setRestitution(0);
+
+	pf->setParticleBaseFlag(PxParticleBaseFlag::eCOLLISION_TWOWAY, true);
 }
 void Physics::RenderGizmos(PxScene* a_scene)
 {
@@ -247,4 +225,29 @@ void Physics::SetUpTutorial1()
 
 	//add to scene
 	m_physicsScene->addActor(*dynamicActor);
+	/*PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi,
+		PxVec3(0.0f, 0.0f, 1.0f)));
+	PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(),
+		*m_physicsMaterial);
+	const PxU32 numShapes = plane->getNbShapes();
+	m_physicsScene->addActor(*plane);
+	PxBoxGeometry side1(4.5, 1, .5);
+	PxBoxGeometry side2(.5, 1, 4.5);
+	pose = PxTransform(PxVec3(0.0f, 0.5, 4.0f));
+	PxRigidStatic* box = PxCreateStatic(*m_physics, pose, side1,
+		*m_physicsMaterial);
+	m_physicsScene->addActor(*box);
+	m_PhysXActors.push_back(box);
+	pose = PxTransform(PxVec3(0.0f, 0.5, -4.0f));
+	box = PxCreateStatic(*m_physics, pose, side1, *m_physicsMaterial);
+	m_physicsScene->addActor(*box);
+	m_PhysXActors.push_back(box);
+	pose = PxTransform(PxVec3(4.0f, 0.5, 0));
+	box = PxCreateStatic(*m_physics, pose, side2, *m_physicsMaterial);
+	m_physicsScene->addActor(*box);
+	m_PhysXActors.push_back(box);
+	pose = PxTransform(PxVec3(-4.0f, 0.5, 0));
+	box = PxCreateStatic(*m_physics, pose, side2, *m_physicsMaterial);
+	m_physicsScene->addActor(*box);
+	m_PhysXActors.push_back(box);*/
 }

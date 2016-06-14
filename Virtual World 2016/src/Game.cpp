@@ -18,7 +18,8 @@ bool Game::InitApp()
 	//m_phyisicsPtr->CreatePhysicsScene();
 	m_phyisicsPtr->SetupVisualDebugger();
 	m_phyisicsPtr->SetUpTutorial1();
-	//m_phyisicsPtr->CreateMeshCollider(m_terrain->GetPhysicalSize(), m_terrain->GetHeightData(), m_terrain->GetPhysicalSize());
+	m_phyisicsPtr->CreateMeshCollider(m_terrain->GetPhysicalSize(), 
+		m_terrain->GetHeightData(), m_terrain->GetPhysicalSize());
 
 	return true;
 }

@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #include <PxPhysicsAPI.h>
 #include <PxScene.h>
@@ -46,6 +47,7 @@ private:
 
 	float m_projectileSpeed;
 
+	std::vector<PxActor*> m_PhysXActors;
 	
 };
 
