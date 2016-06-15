@@ -25,6 +25,8 @@
     <ClCompile Include="src\Engine\FlyCamera.cpp" />
     <ClCompile Include="src\Engine\GPUParticleEmitter.cpp" />
     <ClCompile Include="src\Engine\MerffEngine.cpp" />
+    <ClCompile Include="src\Engine\Physics Particle Emitter\ParticleEmitter.cpp" />
+    <ClCompile Include="src\Engine\Physics Particle Emitter\ParticleFluidEmitter.cpp" />
     <ClCompile Include="src\Engine\Physics.cpp" />
     <ClCompile Include="src\Engine\Renderer.cpp" />
     <ClCompile Include="src\Engine\Shader.cpp" />
@@ -46,6 +48,8 @@
     <ClInclude Include="src\Engine\MerffEngine.h" />
     <ClInclude Include="src\Engine\GPUParticleEmitter.h" />
     <ClInclude Include="src\Engine\MyAllocator.h" />
+    <ClInclude Include="src\Engine\Physics Particle Emitter\ParticleEmitter.h" />
+    <ClInclude Include="src\Engine\Physics Particle Emitter\ParticleFluidEmitter.h" />
     <ClInclude Include="src\Engine\Physics.h" />
     <ClInclude Include="src\Engine\Renderer.h" />
     <ClInclude Include="src\Engine\Shader.h" />

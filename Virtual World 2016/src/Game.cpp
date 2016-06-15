@@ -15,9 +15,9 @@ bool Game::InitApp()
 	m_terrain = new TerrainGen(100, m_globalLight, 10);
 	m_phyisicsPtr = new Physics();
 	m_phyisicsPtr->SetupPhysx();
-	//m_phyisicsPtr->CreatePhysicsScene();
 	m_phyisicsPtr->SetupVisualDebugger();
 	m_phyisicsPtr->SetUpTutorial1();
+	//m_phyisicsPtr->CreateLiquid();
 	m_phyisicsPtr->CreateMeshCollider(m_terrain->GetPhysicalSize(), 
 		m_terrain->GetHeightData(), m_terrain->GetPhysicalSize());
 

@@ -19,6 +19,11 @@ void Physics::Update(float a_dt)
 		while (m_physicsScene->fetchResults() == false);
 
 	}
+	if (m_particleEmitter)
+	{
+		m_particleEmitter->update(a_dt);
+		m_particleEmitter->renderParticles();
+	}
 	RenderGizmos(m_physicsScene);
 }
 void Physics::SetupPhysx()
@@ -75,30 +80,43 @@ void Physics::CreateMeshCollider(int a_size, int* a_data, int a_rowsColumns)
 	hfDesc.nbRows = a_rowsColumns;
 	hfDesc.samples.data = a_data;
 	hfDesc.samples.stride = sizeof(PxHeightFieldSample);
-	hfDesc.thickness = 10000;
+	hfDesc.thickness = -100;
 
 	PxHeightField* heightField = m_physics->createHeightField(hfDesc);
-	PxHeightFieldGeometry hfGeom(heightField, PxMeshGeometryFlags(), 10, a_size, a_size);
-	PxTransform pose = PxTransform(PxVec3(-5000, -650, -5000));
+	PxHeightFieldGeometry hfGeom(heightField, PxMeshGeometryFlags(), .1, 1, 1);
+	PxTransform pose = PxTransform(PxVec3(-50, 0, -50));
 	PxRigidStatic* actor = PxCreateStatic(*m_physics, pose, hfGeom, *m_physicsMaterial);
-	PxShape* heightMap = actor->createShape((PxHeightFieldGeometry)hfGeom, 
-		*m_physicsMaterial, pose);
-	assert(heightMap);
+	//PxShape* heightMap = actor->createShape(hfGeom, *m_physicsMaterial, pose);
+	//assert(heightMap);
 	m_physicsScene->addActor(*actor);
 }
 void Physics::CreateLiquid()
 {
-	PxParticleSystem* pf;
+	PxParticleFluid* pf;
 
 	PxU32 maxParticles = 4000;
 	bool perParticleRestOffset = false;
-	pf = m_physics->createParticleSystem(maxParticles, perParticleRestOffset);
+	pf = m_physics->createParticleFluid(maxParticles, perParticleRestOffset);
 
+	pf->setRestParticleDistance(.3f);
+	pf->setDynamicFriction(0.1);
+	pf->setStaticFriction(0.1);
 	pf->setDamping(0.1);
 	pf->setParticleMass(.1);
 	pf->setRestitution(0);
-
+	//pf->setParticleReadDataFlag(PxParticleReadDataFlag::eDENSITY_BUFFER,
+	// true);
 	pf->setParticleBaseFlag(PxParticleBaseFlag::eCOLLISION_TWOWAY, true);
+	pf->setStiffness(100);
+
+	if (pf)
+	{
+		m_physicsScene->addActor(*pf);
+		m_particleEmitter = new ParticleFluidEmitter(maxParticles,
+			PxVec3(0, 10, 0), pf, .01);
+		m_particleEmitter->setStartVelocityRange(-2.0f, 0, -2.0f,
+			2.0f, 0.0f, 2.0f);
+	}
 }
 void Physics::RenderGizmos(PxScene* a_scene)
 {

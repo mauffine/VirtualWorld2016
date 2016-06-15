@@ -29,9 +29,9 @@ public:
 	int* GetHeightData()
 	{
 		int* tmp = new int[m_size * m_size];
-		for (int i = m_size * m_size - 1; i > -1; i--)
+		for (int i = 0; i < m_size * m_size; ++i)
 		{
-			tmp[i] = m_vertexData[i].position.y * 10;
+			tmp[i] = m_vertexData[m_size * m_size - (i+1)].position.y * 10;
 		}
 		return tmp;
 	}

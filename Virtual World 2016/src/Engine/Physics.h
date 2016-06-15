@@ -12,6 +12,8 @@
 #include "Engine\MyAllocator.h"
 #include "Engine\BaseCamera.h"
 #include "Engine\TerrainGen.h"
+#include "Physics Particle Emitter\ParticleEmitter.h"
+#include "Physics Particle Emitter\ParticleFluidEmitter.h"
 using namespace physx;
 class Physics
 {
@@ -48,6 +50,6 @@ private:
 	float m_projectileSpeed;
 
 	std::vector<PxActor*> m_PhysXActors;
-	
+	ParticleFluidEmitter* m_particleEmitter;
 };
 
