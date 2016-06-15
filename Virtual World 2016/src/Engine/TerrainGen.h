@@ -28,10 +28,17 @@ public:
 	}
 	int* GetHeightData()
 	{
+		//TODO: fix this shit, I don't know what I'm doing anymore
+
 		int* tmp = new int[m_size * m_size];
+		int fkn = 0;
 		for (int i = 0; i < m_size * m_size; ++i)
 		{
-			tmp[i] = m_vertexData[m_size * m_size - (i+1)].position.y * 10;
+			for (int o = i; o < 1000; o += 10)
+			{
+				tmp[fkn] = m_vertexData[o].position.y * 10;
+				fkn++;
+			}
 		}
 		return tmp;
 	}

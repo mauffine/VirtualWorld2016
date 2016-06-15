@@ -192,10 +192,10 @@ bool TerrainGen::Update(double dt)
 }
 void TerrainGen::Draw(const BaseCamera& a_camera)
 {
-	for (int i = 0; i < m_numOfBoulders; ++i)
+	/*for (int i = 0; i < m_numOfBoulders; ++i)
 	{
 		m_alphaBoulder->DrawFromList(a_camera, m_boulderPositions[i].position.xyz);
-	}
+	}*/
 	m_shaders.Bind();
 
 	// Pass through projection view matrix to shader

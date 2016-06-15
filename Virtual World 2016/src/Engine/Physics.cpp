@@ -225,25 +225,26 @@ void Physics::SetUpTutorial1()
 {
 	m_physicsScene = CreatePhysicsScene();
 
-	//add plane
-	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi*1.0f,
-		PxVec3(0.0f, 0.0f, 1.0f)));
+	////add plane
+	//PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi*1.0f,
+	//	PxVec3(0.0f, 0.0f, 1.0f)));
 
-	PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(),
-		*m_physicsMaterial);
+	//PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(),
+	//	*m_physicsMaterial);
+
+	////add to scene
+	//m_physicsScene->addActor(*plane);
+
+	////add box
+	//float density = 10;
+	//PxBoxGeometry box(2, 2, 2);
+	//PxTransform transform(PxVec3(0, 30, 0));
+	//PxRigidDynamic* dynamicActor = PxCreateDynamic(*m_physics, transform, box, *m_physicsMaterial, density);
 
 	//add to scene
-	m_physicsScene->addActor(*plane);
+	//m_physicsScene->addActor(*dynamicActor);
 
-	//add box
-	float density = 10;
-	PxBoxGeometry box(2, 2, 2);
-	PxTransform transform(PxVec3(0, 30, 0));
-	PxRigidDynamic* dynamicActor = PxCreateDynamic(*m_physics, transform, box, *m_physicsMaterial, density);
-
-	//add to scene
-	m_physicsScene->addActor(*dynamicActor);
-	/*PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi,
+	PxTransform pose = PxTransform(PxVec3(0.0f, 0, 0.0f), PxQuat(PxHalfPi,
 		PxVec3(0.0f, 0.0f, 1.0f)));
 	PxRigidStatic* plane = PxCreateStatic(*m_physics, pose, PxPlaneGeometry(),
 		*m_physicsMaterial);
@@ -267,5 +268,5 @@ void Physics::SetUpTutorial1()
 	pose = PxTransform(PxVec3(-4.0f, 0.5, 0));
 	box = PxCreateStatic(*m_physics, pose, side2, *m_physicsMaterial);
 	m_physicsScene->addActor(*box);
-	m_PhysXActors.push_back(box);*/
+	m_PhysXActors.push_back(box);
 }
